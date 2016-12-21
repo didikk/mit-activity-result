@@ -13,17 +13,16 @@
     tools:context="me.didik.activityresultsample.MainActivity">
 
     <Button
-        android:onClick="addContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
+        android:onClick="addContact"
         android:text="Tambah kontak"
         android:textColor="@android:color/white"/>
 
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"/>
-
 </LinearLayout>
