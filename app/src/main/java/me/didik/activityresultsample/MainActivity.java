@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Log.d(TAG, "Success add contact");
                 String name = data.getStringExtra("name");
-                tvName.append(name + "\n");
+                String type = data.getStringExtra("type");
+                tvName.append(name + ": " + type + "\n");
             } else if (resultCode == RESULT_CANCELED)
                 Log.d(TAG, "Add contact canceled");
         }
