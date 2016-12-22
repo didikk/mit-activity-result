@@ -52,4 +52,18 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
     public int getItemCount() {
         return dataset.size();
     }
+
+    public Contact getItem(int position) {
+        return dataset.get(position);
+    }
+
+    public void insert(Contact newContact) {
+        dataset.add(0, newContact);
+        notifyItemInserted(0);
+    }
+
+    public void remove(int position){
+        dataset.remove(position);
+        notifyItemRemoved(position);
+    }
 }

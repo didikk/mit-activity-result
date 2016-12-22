@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddContactActivity extends AppCompatActivity {
-    private EditText etName;
+    private EditText etName, etPhone;
     private Spinner spinner;
     private String selectedString;
 
@@ -23,6 +23,7 @@ public class AddContactActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_contact);
 
         etName = (EditText) findViewById(R.id.et_name);
+        etPhone = (EditText) findViewById(R.id.et_phone);
         spinner = (Spinner) findViewById(R.id.spinner);
 
         initSpinner();
@@ -56,8 +57,8 @@ public class AddContactActivity extends AppCompatActivity {
 
         Intent returnIntent = new Intent();
         String type = (String) spinner.getSelectedItem();
-        returnIntent.putExtra("name", name);
-        returnIntent.putExtra("type", type);
+        String phone = etPhone.getText().toString();
+        returnIntent.putExtra("data", new Contact(name, type, phone));
         setResult(RESULT_OK, returnIntent);
         finish();
     }
