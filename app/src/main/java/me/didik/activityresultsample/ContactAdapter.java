@@ -7,9 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
-
 import java.util.List;
 
 /**
@@ -53,15 +50,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
         holder.name.setText(name);
         holder.type.setText(contact.getType());
         holder.phone.setText(contact.getPhone());
-
-        String firstChar = String.valueOf(name.charAt(0));
-
-        ColorGenerator generator = ColorGenerator.MATERIAL;
-        int generatedColor = generator.getRandomColor();
-        TextDrawable drawable = TextDrawable.builder()
-                .buildRound(firstChar, generatedColor);
-
-        holder.icon.setImageDrawable(drawable);
     }
 
     @Override

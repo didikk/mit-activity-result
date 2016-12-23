@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -38,12 +39,18 @@ public class MainActivity extends AppCompatActivity {
         list.add(new Contact("Ahyar", "Mobile phone", "089682040617"));
         list.add(new Contact("Bayu", "Mobile phone", "089682040617"));
         list.add(new Contact("Wildan", "Mobile phone", "089682040617"));
+        list.add(new Contact("Didik", "Mobile phone", "089682040617"));
+        list.add(new Contact("Ari", "Mobile phone", "089682040617"));
+        list.add(new Contact("Fitra", "Mobile phone", "089682040617"));
+        list.add(new Contact("Ahyar", "Mobile phone", "089682040617"));
+        list.add(new Contact("Bayu", "Mobile phone", "089682040617"));
+        list.add(new Contact("Wildan", "Mobile phone", "089682040617"));
 
         adapter = new ContactAdapter(list);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new SpacesItemDecoration(this, R.dimen.space_5));
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this, recyclerView,
                 new RecyclerTouchListener.ClickListener() {
                     @Override
@@ -58,7 +65,24 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 }));
+
+        ItemTouchHelper touchHelper = new ItemTouchHelper(simpleCallback);
+        touchHelper.attachToRecyclerView(recyclerView);
     }
+
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,
+            ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            int position = viewHolder.getAdapterPosition();
+            adapter.remove(position);
+        }
+    };
 
     public void addContact(View view) {
         Intent intent = new Intent(this, AddContactActivity.class);
