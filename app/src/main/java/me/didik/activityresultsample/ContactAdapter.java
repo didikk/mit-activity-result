@@ -4,7 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import java.util.List;
 
@@ -18,6 +22,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name, phone, type;
+        ImageView icon;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -25,6 +30,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
             name = (TextView) itemView.findViewById(R.id.tv_name);
             phone = (TextView) itemView.findViewById(R.id.tv_phone);
             type = (TextView) itemView.findViewById(R.id.tv_type);
+            icon = (ImageView) itemView.findViewById(R.id.iv_icon);
         }
     }
 
@@ -43,9 +49,19 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Contact contact = dataset.get(position);
 
-        holder.name.setText(contact.getName());
+        String name = contact.getName();
+        holder.name.setText(name);
         holder.type.setText(contact.getType());
         holder.phone.setText(contact.getPhone());
+
+        String firstChar = String.valueOf(name.charAt(0));
+
+        ColorGenerator generator = ColorGenerator.MATERIAL;
+        int generatedColor = generator.getRandomColor();
+        TextDrawable drawable = TextDrawable.builder()
+                .buildRound(firstChar, generatedColor);
+
+        holder.icon.setImageDrawable(drawable);
     }
 
     @Override
@@ -62,7 +78,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
         notifyItemInserted(0);
     }
 
-    public void remove(int position){
+    public void remove(int position) {
         dataset.remove(position);
         notifyItemRemoved(position);
     }
