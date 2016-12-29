@@ -22,15 +22,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:hint="Name"/>
+        android:hint="@string/name"
+        android:inputType="textCapWords"/>
+
+    <EditText
+        android:id="@+id/et_email"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/et_phone"
-        android:inputType="phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:hint="Name"/>
+        android:hint="@string/phone"
+        android:inputType="phone"/>
 
     <Button
         android:layout_width="match_parent"
@@ -38,7 +47,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:background="@color/colorAccent"
         android:onClick="save"
-        android:text="Save"
+        android:text="@string/save"
         android:textColor="@android:color/white"/>
 
     <Button
@@ -47,6 +56,6 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:background="@color/colorAccent"
         android:onClick="cancel"
-        android:text="Cancel"
+        android:text="@string/cancel"
         android:textColor="@android:color/white"/>
 </LinearLayout>

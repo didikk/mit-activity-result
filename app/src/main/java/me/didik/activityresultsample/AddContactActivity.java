@@ -12,8 +12,10 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.didik.activityresultsample.model.Contact;
+
 public class AddContactActivity extends AppCompatActivity {
-    private EditText etName, etPhone;
+    private EditText etName, etPhone, etEmail;
     private Spinner spinner;
     private String selectedString;
 
@@ -24,6 +26,7 @@ public class AddContactActivity extends AppCompatActivity {
 
         etName = (EditText) findViewById(R.id.et_name);
         etPhone = (EditText) findViewById(R.id.et_phone);
+        etEmail = (EditText) findViewById(R.id.et_email);
         spinner = (Spinner) findViewById(R.id.spinner);
 
         initSpinner();
@@ -58,7 +61,9 @@ public class AddContactActivity extends AppCompatActivity {
         Intent returnIntent = new Intent();
         String type = (String) spinner.getSelectedItem();
         String phone = etPhone.getText().toString();
-        returnIntent.putExtra("data", new Contact(name, type, phone));
+        String email = etEmail.getText().toString();
+
+        returnIntent.putExtra("data", new Contact(name, email, type, phone));
         setResult(RESULT_OK, returnIntent);
         finish();
     }

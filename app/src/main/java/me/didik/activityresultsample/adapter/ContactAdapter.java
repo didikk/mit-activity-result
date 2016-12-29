@@ -1,4 +1,4 @@
-package me.didik.activityresultsample;
+package me.didik.activityresultsample.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+
+import me.didik.activityresultsample.R;
+import me.didik.activityresultsample.model.Contact;
 
 /**
  * Created by didik on 12/21/16.
@@ -48,7 +51,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
 
         String name = contact.getName();
         holder.name.setText(name);
-        holder.type.setText(contact.getType());
+        holder.type.setText(contact.getEmail());
         holder.phone.setText(contact.getPhone());
     }
 

@@ -1,4 +1,4 @@
-package me.didik.activityresultsample;
+package me.didik.activityresultsample.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -9,7 +9,9 @@ import android.os.Parcelable;
  */
 
 public class Contact implements Parcelable {
+    private int id;
     private String name;
+    private String email;
     private String type;
     private String phone;
 
@@ -17,6 +19,25 @@ public class Contact implements Parcelable {
         this.name = name;
         this.type = type;
         this.phone = phone;
+    }
+
+    public Contact(String name, String email, String type, String phone) {
+        this.name = name;
+        this.email = email;
+        this.type = type;
+        this.phone = phone;
+    }
+
+    public Contact(int id, String name, String email, String type, String phone) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.type = type;
+        this.phone = phone;
+    }
+
+    public Contact() {
+
     }
 
     public String getName() {
@@ -43,6 +64,22 @@ public class Contact implements Parcelable {
         this.phone = phone;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -50,13 +87,17 @@ public class Contact implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
         dest.writeString(this.name);
+        dest.writeString(this.email);
         dest.writeString(this.type);
         dest.writeString(this.phone);
     }
 
     protected Contact(Parcel in) {
+        this.id = in.readInt();
         this.name = in.readString();
+        this.email = in.readString();
         this.type = in.readString();
         this.phone = in.readString();
     }

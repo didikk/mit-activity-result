@@ -10,8 +10,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import me.didik.activityresultsample.adapter.ContactAdapter;
+import me.didik.activityresultsample.helper.DatabaseHandler;
+import me.didik.activityresultsample.helper.RecyclerTouchListener;
+import me.didik.activityresultsample.helper.SpacesItemDecoration;
+import me.didik.activityresultsample.model.Contact;
 
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 1;
@@ -20,11 +25,14 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Contact> list;
     private ContactAdapter adapter;
+    private DatabaseHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        db = new DatabaseHandler(this);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
@@ -32,19 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initRecycler() {
-        list = new ArrayList<>();
-        list.add(new Contact("Didik", "Mobile phone", "089682040617"));
-        list.add(new Contact("Ari", "Mobile phone", "089682040617"));
-        list.add(new Contact("Fitra", "Mobile phone", "089682040617"));
-        list.add(new Contact("Ahyar", "Mobile phone", "089682040617"));
-        list.add(new Contact("Bayu", "Mobile phone", "089682040617"));
-        list.add(new Contact("Wildan", "Mobile phone", "089682040617"));
-        list.add(new Contact("Didik", "Mobile phone", "089682040617"));
-        list.add(new Contact("Ari", "Mobile phone", "089682040617"));
-        list.add(new Contact("Fitra", "Mobile phone", "089682040617"));
-        list.add(new Contact("Ahyar", "Mobile phone", "089682040617"));
-        list.add(new Contact("Bayu", "Mobile phone", "089682040617"));
-        list.add(new Contact("Wildan", "Mobile phone", "089682040617"));
+        list = db.getAllContacts();
 
         adapter = new ContactAdapter(list);
 
@@ -80,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
+            db.deleteContact(adapter.getItem(position));
             adapter.remove(position);
         }
     };
@@ -96,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Log.d(TAG, "Success add contact");
                 Contact contact = data.getParcelableExtra("data");
+                db.addContact(contact);
                 adapter.insert(contact);
                 recyclerView.scrollToPosition(0);
                 //tvName.append(name + ": " + type + "\n");
