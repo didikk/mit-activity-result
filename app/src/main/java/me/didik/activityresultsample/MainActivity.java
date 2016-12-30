@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = new DatabaseHandler(this);
+        db = DatabaseHandler.getInstance();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 

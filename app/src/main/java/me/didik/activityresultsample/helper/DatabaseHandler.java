@@ -26,8 +26,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_TYPE = "types";
     private static final String KEY_PHONE = "phones";
 
-    public DatabaseHandler(Context context) {
+    private static SQLiteDatabase db;
+    private static DatabaseHandler instance;
+
+    private DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    public static void init(Context context) {
+        instance = new DatabaseHandler(context);
+        db = instance.getWritableDatabase();
+    }
+
+    public static synchronized DatabaseHandler getInstance() {
+        return instance;
     }
 
     @Override
@@ -52,7 +64,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void addContact(Contact contact) {
-        SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, contact.getName()); // Contact Name
@@ -62,8 +73,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // Inserting Row
         db.insert(TABLE_CONTACTS, null, values);
-        //2nd argument is String containing nullColumnHack
-        db.close(); // Closing database connection
     }
 
     // code to get all contacts in a list view
@@ -72,7 +81,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_CONTACTS;
 
-        SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -89,15 +97,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        db.close();
         // return contact list
         return contactList;
     }
 
     public void deleteContact(Contact contact) {
-        SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CONTACTS, KEY_ID + " = ?",
                 new String[]{String.valueOf(contact.getId())});
-        db.close();
     }
 }
