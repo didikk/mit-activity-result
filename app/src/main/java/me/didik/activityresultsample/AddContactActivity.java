@@ -104,7 +104,7 @@ public class AddContactActivity extends AppCompatActivity {
             @Override
             public void onCanceled(EasyImage.ImageSource source, int type) {
                 if (source == EasyImage.ImageSource.CAMERA) {
-                    File photoFile = EasyImage.lastlyTakenButCanceledPhoto(MainActivity.this);
+                    File photoFile = EasyImage.lastlyTakenButCanceledPhoto(AddContactActivity.this);
                     if (photoFile != null) photoFile.delete();
                 }
             }
@@ -121,6 +121,4 @@ public class AddContactActivity extends AppCompatActivity {
             Log.d("path", imageFile.getAbsolutePath());
         }
     }
-
-
 }

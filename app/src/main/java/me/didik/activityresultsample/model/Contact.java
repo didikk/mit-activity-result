@@ -3,41 +3,42 @@ package me.didik.activityresultsample.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
+
+import java.util.List;
+
 /**
  * Created by didik on 12/21/16.
  * C
  */
 
-public class Contact implements Parcelable {
-    private int id;
+@Table(name = "Contact")
+public class Contact extends Model implements Parcelable {
+    @Column(name = "Name")
     private String name;
+
+    @Column(name = "Email")
     private String email;
+
+    @Column(name = "Type")
     private String type;
+
+    @Column(name = "Phone")
     private String phone;
 
-    public Contact(String name, String type, String phone) {
-        this.name = name;
-        this.type = type;
-        this.phone = phone;
+    public Contact() {
+        super();
     }
 
     public Contact(String name, String email, String type, String phone) {
+        super();
         this.name = name;
         this.email = email;
         this.type = type;
         this.phone = phone;
-    }
-
-    public Contact(int id, String name, String email, String type, String phone) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.type = type;
-        this.phone = phone;
-    }
-
-    public Contact() {
-
     }
 
     public String getName() {
@@ -46,6 +47,14 @@ public class Contact implements Parcelable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getType() {
@@ -64,22 +73,6 @@ public class Contact implements Parcelable {
         this.phone = phone;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -87,7 +80,6 @@ public class Contact implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
         dest.writeString(this.name);
         dest.writeString(this.email);
         dest.writeString(this.type);
@@ -95,7 +87,6 @@ public class Contact implements Parcelable {
     }
 
     protected Contact(Parcel in) {
-        this.id = in.readInt();
         this.name = in.readString();
         this.email = in.readString();
         this.type = in.readString();
@@ -113,4 +104,8 @@ public class Contact implements Parcelable {
             return new Contact[size];
         }
     };
+
+    public static List<Contact> get() {
+        return new Select().from(Contact.class).execute();
+    }
 }

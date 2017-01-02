@@ -13,7 +13,6 @@ import android.widget.Toast;
 import java.util.List;
 
 import me.didik.activityresultsample.adapter.ContactAdapter;
-import me.didik.activityresultsample.helper.DatabaseHandler;
 import me.didik.activityresultsample.helper.RecyclerTouchListener;
 import me.didik.activityresultsample.helper.SpacesItemDecoration;
 import me.didik.activityresultsample.model.Contact;
@@ -25,14 +24,11 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Contact> list;
     private ContactAdapter adapter;
-    private DatabaseHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        db = DatabaseHandler.getInstance();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
@@ -40,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initRecycler() {
-        list = db.getAllContacts();
+        list = Contact.get();
 
         adapter = new ContactAdapter(list);
 
@@ -76,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
-            db.deleteContact(adapter.getItem(position));
+            Contact contact = adapter.getItem(position);
+            contact.delete();
             adapter.remove(position);
         }
     };
@@ -84,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
     public void addContact(View view) {
         Intent intent = new Intent(this, AddContactActivity.class);
         startActivityForResult(intent, REQUEST_CODE);
-        //adapter.remove(0);
     }
 
     @Override
@@ -93,10 +89,9 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Log.d(TAG, "Success add contact");
                 Contact contact = data.getParcelableExtra("data");
-                db.addContact(contact);
+                contact.save();
                 adapter.insert(contact);
                 recyclerView.scrollToPosition(0);
-                //tvName.append(name + ": " + type + "\n");
             } else if (resultCode == RESULT_CANCELED)
                 Log.d(TAG, "Add contact canceled");
         }
